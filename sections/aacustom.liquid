@@ -1,0 +1,88 @@
+<div class="page-width rich-text">
+  <div class="grid">
+    <div class="grid__item {% unless section.settings.full_width %} medium-up--two-thirds medium-up--push-one-sixth{% endunless %}">
+      {% if section.settings.section_title != blank %}
+        <div class="rich-text__heading--{{ section.settings.text_size }} text-center">
+          <h2 class="h3">{{ section.settings.section_title | escape }}</h2>
+        </div>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <div class="rich-text__text--{{ section.settings.text_size }} rte-setting text-center">{{ section.settings.text }}</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+
+{% schema %}
+{
+  "name": {
+    "en": "Rich text custom"
+  },
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": {
+        "en": "Wide display custom"
+      }
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": {
+        "en": "Heading custom"
+      },
+      "default": {
+        "en": "Talk about your brand  custom"
+      }
+    },
+    {
+      "type": "richtext",
+      "id": "text_custom",
+      "label": {
+        "en": "Text custom"
+      },
+      "default": {
+        "en": "<p> custom Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+      }
+    },
+    {
+      "type": "select",
+      "id": "text_size_custom",
+      "label": {
+        "en": "Size custom"
+      },
+      "default": "medium",
+      "options": [
+        {
+          "label": {
+            "en": "Small"
+          },
+          "value": "small"
+        },
+        {
+          "label": {
+            "en": "Medium"
+          },
+          "value": "medium"
+        },
+        {
+          "label": {
+            "en": "Large"            
+          },
+          "value": "large"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich text custom",
+      "category": "Text"
+    }
+  ]
+}
+{% endschema %}
