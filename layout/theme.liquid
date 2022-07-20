@@ -93,6 +93,7 @@
   <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
 
    {% include 'globo.filter.script' %}{{ content_for_header }} 
+  {% render 'judgeme_core' %}
 </head>
 
 <body class="template-{{ request.page_type | handle }}">
