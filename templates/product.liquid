@@ -3,7 +3,7 @@
 {% endcomment %}
 
 {% section 'product-template' %}
-{% render 'judgeme_widgets', widget_type: 'judgeme_review_widget', concierge_install: false, product: product %}
+
 {% section 'product-recommendations' %}
 
 {% if collection %}
@@ -14,7 +14,7 @@
     </a>
   </div>
 {% endif %}
-
+{% render 'judgeme_widgets', widget_type: 'judgeme_review_widget', concierge_install: false, product: product %}
 <script>
   // Override default values of shop.strings for each template.
   // Alternate product templates can change values of
