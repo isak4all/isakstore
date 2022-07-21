@@ -249,6 +249,7 @@
 {% comment %}
 <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
 {% endcomment %}
+{% render 'judgeme_widgets', widget_type: 'judgeme_review_widget', concierge_install: false, product: product %}
 
 {% unless product == empty %}
   <script type="application/json" id="ProductJson-{{ section.id }}">
