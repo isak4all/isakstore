@@ -1,12 +1,129 @@
+{{ 'component-accordion.css' | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="{{ 'section-faq.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<noscript>{{ 'section-faq.css' | asset_url | stylesheet_tag }}</noscript>
+
+{%- style -%}
+  {% if section.settings.fps_title_bg != blank %}
+    .section-{{ section.id }} .faq-section__title-block {
+        background-image: url({{ section.settings.fps_title_bg | image_url: width: 1920 }});
+    }
+  {% endif %}  
+
+  {% if section.settings.fps_title_color != blank %}
+    .section-{{ section.id }} .faq-section__title-block h1 {
+        color: {{section.settings.fps_title_color}};
+    }
+  {% endif %}  
+  
+{%- endstyle -%}
+
+<div class="faq-section section-{{ section.id }} section-{{ section.id }}-padding">
+    <div class="faq-section__title-block">
+      <div class="faq-section__title-block__wrapper">
+        
+        {% if section.settings.fps_page != blank %}
+            <ul class="faq-section__title-block-breadcrumbs">
+                <li><a href="{{section.settings.fps_page.url}}">{{section.settings.fps_page.title}}</a><span>></span></li>
+                <li>{{page.title}}</li>
+            </ul>
+        {% else %}
+            <h1>{{page.title}}</h1>
+        {% endif %}
+        
+        <div class="faq-section__title-block__search">
+          <form action="{{ routes.search_url }}" method="get" role="search" class="search">
+            <div class="field">
+              <input class="search__input field__input"
+                id="Search-In-Modal"
+                type="search"
+                name="q"
+                value=""
+                placeholder="{{ 'general.search.search' | t }}"
+              >
+              <label class="field__label" for="Search-In-Modal">{{ 'general.search.search' | t }}</label>
+              <input type="hidden" name="options[prefix]" value="last">
+              <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
+                <svg  class="icon icon-search" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M15.9762 14.4716H15.1862L14.9062 14.2016C16.1062 12.8016 16.7262 10.8916 16.3862 8.86157C15.9162 6.08157 13.5962 3.86157 10.7962 3.52157C6.56621 3.00157 3.00621 6.56157 3.52621 10.7916C3.86621 13.5916 6.08621 15.9116 8.86621 16.3816C10.8962 16.7216 12.8062 16.1016 14.2062 14.9016L14.4762 15.1816V15.9716L18.7262 20.2216C19.1362 20.6316 19.8062 20.6316 20.2162 20.2216C20.6262 19.8116 20.6262 19.1416 20.2162 18.7316L15.9762 14.4716ZM9.97621 14.4716C7.48621 14.4716 5.47621 12.4616 5.47621 9.97157C5.47621 7.48157 7.48621 5.47157 9.97621 5.47157C12.4662 5.47157 14.4762 7.48157 14.4762 9.97157C14.4762 12.4616 12.4662 14.4716 9.97621 14.4716Z" fill="currentColor"/>
+                </svg>                  
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>           
+    </div>
+
+    <div class="accordion_list">
+        {% assign accordion_list = page.content | split: "---end-item---" %}
+        {% assign accordion_item_count = 0 %}
+        {% for accordion_item in accordion_list %}
+        {% assign accordion_item_part = accordion_item | split: "---item-title---" %}
+            <div class="faq-accordion accordion quick-add-hidden">
+                <details id="Details-faq-accordion{{ accordion_item_count }}">
+                    <summary>
+                    <div class="summary__title">
+                        <h2 class="h4 accordion__title">
+                            {{accordion_item_part[0]}}
+                        </h2>
+                    </div>
+                    {% render 'icon-caret' %}
+                    </summary>
+                    <div class="accordion__content rte" id="ProductAccordion-{{ accordion_item_count }}">
+                        {{accordion_item_part[1]}}
+                    </div>
+                </details>
+            </div>
+            {% assign accordion_item_count = htp_count | plus: 1 %}
+        {% endfor %}
+    </div>    
+   
+    <div class="faq-section__btn-block">
+        {% if section.settings.fps_btn_title != blank %}
+            <div class="faq-section__btn-block-title"><h2>{{section.settings.fps_btn_title}}</h2></div>
+        {% endif %}
+        {% if section.settings.fps_btn_text != blank and section.settings.fps_btn_url != blank %}
+            <div class="faq-section__btn"><a href="{{section.settings.fps_btn_url}}" class="button">{{section.settings.fps_btn_text}}</a></div>
+        {% endif %}
+    </div>
+</div>
+
 {% schema %}
-  {
-    "name": "Section name",
-    "settings": []
-  }
+{
+    "name": "Faq accordion",
+    "tag": "section",
+    "settings": [        
+        {
+            "type": "color",
+            "id": "fps_title_color",
+            "default": "#3b8c38",
+            "label": "Title text color"
+        },
+        {
+            "type": "image_picker",
+            "id": "fps_title_bg",
+            "label": "Title bacground"
+        },
+        {
+          "type": "page",
+          "id": "fps_page",
+          "label": "Father page"
+        },
+        {
+          "type": "text",
+          "id": "fps_btn_title",
+          "label": "Title button"
+        },
+        {
+            "type": "text",
+            "id": "fps_btn_text",
+            "label": "Button text"
+        },
+        {
+            "type": "url",
+            "id": "fps_btn_url",
+            "label": "Button url"
+        }
+    ]
+}
 {% endschema %}
-
-{% stylesheet %}
-{% endstylesheet %}
-
-{% javascript %}
-{% endjavascript %}
